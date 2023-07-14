@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TASK_URL_PREFIX } from "../constants/ApiConstants";
+import { BASE_URL, TASK_URL_PREFIX } from "../constants/ApiConstants";
 
 export function saveTask(task) {
     return axios.post(TASK_URL_PREFIX, task)
@@ -17,10 +17,10 @@ export function markAsCompleted(id) {
     return axios.put(`${TASK_URL_PREFIX}/mark-complete/${id}`)
 }
 
-export function UpdateTheTask(id, Task) {
+export function updateTaskData(Task, id) {
     return axios.put(`${TASK_URL_PREFIX}/${id}`, Task)
 }
 
-export function findById(id) {
-    return axios.get(`${TASK_URL_PREFIX}/${id}`)
+export function updateTask(id) {
+    return axios.get(`${BASE_URL}/${id}`)
 }

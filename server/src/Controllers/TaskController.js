@@ -41,15 +41,6 @@ export async function deleteTask(req, res) {
     }
 }
 
-export async function updateTask(req, res) {
-    try {
-        const task = await Task.findByIdAndUpdate(req.params.id, req.body)
-        res.status(StatusCodes.OK).json(task)
-    } catch (error) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error in updating task" })
-    }
-}
-
 export async function fetchPendingTasks(req, res) {
     try {
         const task = await Task.find({ isCompleted: false })
@@ -68,11 +59,22 @@ export async function markAsCompleted(req, res) {
     }
 }
 
-export async function findOneById(req, res) {
+
+export async function UpdateTaskById(req, res) {
     try {
-        const response = await Task.findById({ _id: req.params.id })
-        res.status(StatusCodes.OK).json(response)
+        const task = await Task.find({ _id: req.params.id })
+        res.status(StatusCodes.OK).json(task)
     } catch (error) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong in find by Id" })
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error in fetching task" })
+    }
+}
+
+export async function updateOneTask(req, res) {
+    const editTask = new Task(req.body)
+    try {
+        const task = await Task.updateOne({ _id: req.params.id }, editTask)
+        res.status(StatusCodes.OK).json(task)
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error in updating task" })
     }
 }
