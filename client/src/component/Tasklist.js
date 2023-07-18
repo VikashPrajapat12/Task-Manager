@@ -3,16 +3,18 @@ import { Alert, Button, Card, Col, Container, Row, Dropdown } from "react-bootst
 import { Link } from "react-router-dom";
 import { deleteTask, getTaskFromServer, markAsCompleted, UpdateTask } from '../services/TaskService'
 import { updateTask } from "./UpdateTask";
+import { Spin } from "antd";
 
 export function Tasklist() {
     const [tasklist, setTasklist] = useState([])
+    const [isDataFetched, setFetchedData] = useState(false)
 
 
     const fetchTasks = async (url) => {
         const response = await getTaskFromServer(url)
         setTasklist(response.data)
+        setFetchedData(true)
         console.log(response.data);
-
     }
 
     useEffect(() => {
@@ -21,7 +23,7 @@ export function Tasklist() {
 
     return (
         <>
-            <Container className="mt-5 text-center">
+            <Container className="mt-4 text-center">
                 <Alert>List of all Tasks</Alert>
             </Container>
             <Container>
@@ -40,7 +42,8 @@ export function Tasklist() {
                     </Dropdown.Menu>
                 </Dropdown>
                 <Row>
-                    {
+                    {isDataFetched ?
+
                         tasklist.map((item) => {
                             let newarr = item.createdOn.split("T")
                             let arr = newarr[1].split(".")
@@ -102,6 +105,7 @@ export function Tasklist() {
                                 </Col>
                             )
                         })
+                        : <Spin tip="Loading" size="large" className="mt-4"></Spin>
                     }
 
                 </Row>

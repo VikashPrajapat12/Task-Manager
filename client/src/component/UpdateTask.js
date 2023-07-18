@@ -8,7 +8,6 @@ import { message } from 'antd'
 
 export function UpdateTask() {
     const [task, setTaskdata] = useState({})
-    const [taskCreated, isTaskCreated] = useState(false)
     const [isError, setError] = useState(false)
 
     useEffect(() => {
@@ -31,15 +30,6 @@ export function UpdateTask() {
         console.log(response);
         message.success("Task Updated Successfully ")
         navigateAll('/task-list')
-        if (response.status == StatusCodes.OK) {
-            isTaskCreated(true)
-        }
-        else {
-            setError(true)
-        }
-        setTimeout(() => {
-            isTaskCreated(false)
-        }, 1000);
     }
 
 
