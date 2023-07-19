@@ -19,7 +19,7 @@ export function UpdateTask() {
     const loadtask = async () => {
         const response = await updateTask(id)
         console.log(response);
-        setTaskdata(response.data)
+        setTaskdata(response.data[0])
     }
 
     const navigateAll = useNavigate()
