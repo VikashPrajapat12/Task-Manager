@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 export function NavBar() {
     return (
         <>
-            <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar collapseOnSelect bg="dark" variant="dark" expand="lg">
                 <Container>
                     <Navbar.Brand href="#home">Task-Manager</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
