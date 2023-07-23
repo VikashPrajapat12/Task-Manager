@@ -7,8 +7,8 @@ export function NavBar() {
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container>
                     <Navbar.Brand href="#home">Task-Manager</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
                             <LinkContainer to='/'><Nav.Link>Home</Nav.Link></LinkContainer>
                             <LinkContainer to='/add-tasks'><Nav.Link>Add-Task</Nav.Link></LinkContainer>
