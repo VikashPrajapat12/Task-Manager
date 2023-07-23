@@ -105,7 +105,7 @@ export function Tasklist() {
                                 </Col>
                             )
                         })
-                        : <Spin tip="Loading" size="large" className="mt-4">Loading</Spin>
+                        : <Spin tip="Loading" size="large" className="mt-4"> </Spin>
                     }
 
                 </Row>
