@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL, TASK_URL_PREFIX } from "../constants/ApiConstants";
+import { message } from "antd";
 
 export function saveTask(task) {
     return axios.post(TASK_URL_PREFIX, task)
@@ -10,6 +11,7 @@ export function getTaskFromServer(url) {
 }
 
 export function deleteTask(id) {
+    message.success("Task deleted successfully")
     return axios.delete(`${TASK_URL_PREFIX}/${id}`)
 }
 

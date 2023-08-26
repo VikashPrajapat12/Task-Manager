@@ -1,31 +1,27 @@
 import { useState } from "react";
-import { Container, Alert, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Alert, Row, Col, Form, Button, Toast } from "react-bootstrap";
 import { saveTask } from "../services/TaskService";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 export function Addtask() {
     const [formdata, seformdata] = useState({})
-    const [istask, setistask] = useState(false)
-    const [isError, setisError] = useState(false)
 
     const handleChange = (e) => {
         seformdata({ ...formdata, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const response = await saveTask(formdata)
-        console.log(response.data);
-        if (response.status == 200) {
-            setistask(true)
-            setTimeout(() => {
-                setistask(false)
-            }, 2000);
+    const navigate = useNavigate()
 
-        }
-        else {
-            setisError(true)
-        }
+    const handleSubmit = async (e) => {
+            e.preventDefault()
+            const response = await saveTask(formdata)
+            message.success("Task Added Successfully")
+            navigate('/task-list')
+            console.log(response.data);
     }
 
     return (
@@ -58,20 +54,6 @@ export function Addtask() {
                     <Button variant="success" type="submit">Create Task</Button>
                 </Form>
             </Container>
-            {
-                istask ? <Container className="mt-4">
-                    <Col lg={4}>
-                        <Alert>Task Created Successfully...</Alert>
-                    </Col>
-                </Container> : null
-            }
-            {
-                isError ? <Container className="mt-4">
-                    <Col lg={4}>
-                        <Alert>Error in creating task...please try later</Alert>
-                    </Col>
-                </Container> : null
-            }
         </>
     )
 }

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { Alert, Button, Card, Col, Container, Row, Dropdown } from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row, Dropdown, Toast } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteTask, getTaskFromServer, markAsCompleted, UpdateTask } from '../services/TaskService'
 import { updateTask } from "./UpdateTask";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 
 export function Tasklist() {
     const [tasklist, setTasklist] = useState([])
     const [isDataFetched, setFetchedData] = useState(false)
-
 
     const fetchTasks = async (url) => {
         const response = await getTaskFromServer(url)
@@ -42,13 +41,12 @@ export function Tasklist() {
                     </Dropdown.Menu>
                 </Dropdown>
                 <Row>
+                  
                     {isDataFetched ?
-
                         tasklist.map((item) => {
-                            let newarr = item.createdOn.split("T")
-                            let arr = newarr[1].split(".")
-                            let date = new Date(newarr[0]).toDateString()
-                            console.log(arr[0]);
+                            let newarr = item.createdOn.split("T")[0]
+                            let time = item.createdOn.split("T")[1].split(".")[0]
+                            let date = new Date(newarr).toDateString()
                             return (
                                 <Col lg={4}>
                                     <Card className="mt-3 set-card">
@@ -59,13 +57,14 @@ export function Tasklist() {
                                                     <>
                                                         <Card.Title>{item.name}</Card.Title>
                                                         <Card.Text>{item.description}</Card.Text>
-                                                        <Card.Text>{date + "  " + arr[0]}</Card.Text>
+                                                        <Card.Text>{date + "  " + time}</Card.Text>
 
                                                         &nbsp;
 
                                                         <Button variant="danger btn-sm" onClick={async () => {
                                                             await deleteTask(item._id)
                                                             fetchTasks('all')
+                                                            message.success("Task deleted Successfully")
                                                         }}>Delete</Button>
 
                                                         &nbsp; &nbsp; &nbsp;
@@ -79,7 +78,7 @@ export function Tasklist() {
                                                     <>
                                                         <Card.Title>{item.name}</Card.Title>
                                                         <Card.Text>{item.description}</Card.Text>
-                                                        <Card.Text>{date + "  " + arr[0]}</Card.Text>
+                                                        <Card.Text>{date + "  " + time}</Card.Text>
                                                         <Button variant="success btn-sm" onClick={async () => {
                                                             await markAsCompleted(item._id)
                                                             fetchTasks('all')
@@ -90,6 +89,7 @@ export function Tasklist() {
                                                         <Button variant="danger btn-sm" onClick={async () => {
                                                             await deleteTask(item._id)
                                                             fetchTasks('all')
+                                                            message.success("Task deleted Successfully")
                                                         }}>Delete</Button>
 
                                                         &nbsp; &nbsp; &nbsp;
@@ -105,7 +105,7 @@ export function Tasklist() {
                                 </Col>
                             )
                         })
-                        : <Spin tip="Loading" size="large" className="mt-4"> </Spin>
+                        : <Spin tip="Loading...Please Wait a moment" size="large" className="mt-5"> </Spin>
                     }
 
                 </Row>

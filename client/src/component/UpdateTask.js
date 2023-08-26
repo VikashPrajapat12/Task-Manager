@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Container, Alert, Row, Col, Form, Button } from 'react-bootstrap'
 import { useEffect } from "react";
-import { StatusCodes } from "http-status-codes";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { updateTask, updateTaskData } from "../services/TaskService";
 import { message } from 'antd'
 
+
 export function UpdateTask() {
-    const [task, setTaskdata] = useState({})
+    const [task, setTaskdata] = useState([])
     const [isError, setError] = useState(false)
 
     useEffect(() => {
@@ -19,6 +19,7 @@ export function UpdateTask() {
     const loadtask = async () => {
         const response = await updateTask(id)
         console.log(response);
+        response.data[0].deadline = response.data[0].deadline.split("T")[0]
         setTaskdata(response.data[0])
     }
 
@@ -28,7 +29,7 @@ export function UpdateTask() {
         e.preventDefault()
         const response = await updateTaskData(task, id)
         console.log(response);
-        message.success("Task Updated Successfully ")
+        message.success("Task Updated Successfully ") || alert("Task Updated Successfully")
         navigateAll('/task-list')
     }
 
@@ -41,7 +42,8 @@ export function UpdateTask() {
 
     return (
         <>
-
+          
+        
             <Container className="mt-4 text-center" >
                 <Alert variant="info">Update Task</Alert>
             </Container>
@@ -69,6 +71,10 @@ export function UpdateTask() {
                             </Form.Group>
                         </Col>
                     </Row>
+                    <Button  onClick={()=>{
+                        navigateAll(-1)         //-1 for back page navigation 
+                    }}>Back</Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <Button variant="success" type="submit">Update</Button>
                 </Form>
             </Container>
